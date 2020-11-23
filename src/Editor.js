@@ -46,7 +46,8 @@ const CustomEditor = {
 
 const App = () => {
   const editor = useMemo(() => withReact(createEditor()), [])
-  const [value, setValue] = useState([
+  const [value, setValue] = useState(
+    JSON.parse(localStorage.getItem('content')) || [
     {
       type: 'paragraph',
       children: [{ text: 'A line of text in a paragraph.' }],
@@ -118,7 +119,14 @@ const App = () => {
           }
         }}
       />
+      <hr></hr>
+      <pre>
+      <code lang="json">
+        {JSON.stringify(JSON.parse(localStorage.content))}
+      </code></pre>
+      <hr></hr>
     </Slate>
+
   )
 }
 
