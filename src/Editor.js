@@ -1,5 +1,5 @@
 // Import React dependencies.
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 // Import the Slate editor factory.
 import { createEditor, Transforms } from "slate";
 
