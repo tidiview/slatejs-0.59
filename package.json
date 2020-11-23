@@ -1,8 +1,11 @@
 {
-  "name": "slatejs",
-  "version": "1.0.0",
-  "description": "",
-  "keywords": [],
+  "name": "slate-0.59",
+  "version": "0.0.1",
+  "license": "MIT",
+  "author": "François VIDIT",
+  "description": "a slate editor (version 0.59) connected with github as a back end with slate-history plugin as a react app.",
+  "keywords": ["slate", "slate-history", "slate-hyperscript", "slate-react", "slate-editor", "0.59"],
+  "homepage": "https://tidiview.github.io/slate-0.59",
   "main": "src/index.js",
   "dependencies": {
     "emotion": "10.0.27",
@@ -21,7 +24,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "yarn run build",
+    "deploy": "gh-pages -d build"
   },
   "browserslist": [">0.2%", "not dead", "not ie <= 11", "not op_mini all"]
 }

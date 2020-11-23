@@ -68,7 +68,14 @@ const App = () => {
 
   return (
     // Add a toolbar with buttons that call the same methods.
-    <Slate editor={editor} value={value} onChange={value => setValue(value)}>
+    <Slate 
+      editor={editor} 
+      value={value} 
+      onChange={value => {
+        setValue(value)
+        const content = JSON.stringify(value)
+        localStorage.setItem('content', content)
+        }}>
       <div>
         <button
           onMouseDown={event => {
