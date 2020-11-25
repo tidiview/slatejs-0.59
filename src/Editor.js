@@ -2,6 +2,8 @@
 import React, { useCallback, useMemo, useState } from "react";
 // Import the Slate editor factory.
 import { createEditor, Editor, Text, Transforms } from "slate";
+// Import the Slate editor history.
+import { withHistory } from "slate-history";
 
 // Import the Slate components and React plugin.
 import { Slate, Editable, withReact } from "slate-react";
@@ -12,6 +14,30 @@ const CustomEditor = {
     const [match] = Editor.nodes(editor, {
       match: n => n.bold === true,
       universal: true,
+    })
+
+    return !!match
+  },
+
+  isItalicMarkActive(editor) {
+    const [match] = Editor.nodes(editor, {
+      match: n => n.italic === true,
+    })
+
+    return !!match
+  },
+
+  isUnderlineMarkActive(editor) {
+    const [match] = Editor.nodes(editor, {
+      match: n => n.underline === true,
+    })
+
+    return !!match
+  },
+
+  isStrikethroughMarkActive(editor) {
+    const [match] = Editor.nodes(editor, {
+      match: n => n.strikethrough === true,
     })
 
     return !!match
@@ -34,6 +60,33 @@ const CustomEditor = {
     )
   },
 
+  toggleItalicMark(editor) {
+    const isActive = CustomEditor.isItalicMarkActive(editor)
+    Transforms.setNodes(
+      editor,
+      { italic: isActive ? null : true },
+      { match: n => Text.isText(n), split: true }
+    )
+  },
+
+  toggleUnderlineMark(editor) {
+    const isActive = CustomEditor.isUnderlineMarkActive(editor)
+    Transforms.setNodes(
+      editor,
+      { underline: isActive ? null : true },
+      { match: n => Text.isText(n), split: true }
+    )
+  },
+
+  toggleStrikethroughMark(editor) {
+    const isActive = CustomEditor.isStrikethroughMarkActive(editor)
+    Transforms.setNodes(
+      editor,
+      { strikethrough: isActive ? null : true },
+      { match: n => Text.isText(n), split: true }
+    )
+  },
+
   toggleCodeBlock(editor) {
     const isActive = CustomEditor.isCodeBlockActive(editor)
     Transforms.setNodes(
@@ -45,14 +98,16 @@ const CustomEditor = {
 }
 
 const App = () => {
-  const editor = useMemo(() => withReact(createEditor()), [])
+
+  const editor = useMemo(() => withReact(createEditor()), []);
+
   const [value, setValue] = useState(
     JSON.parse(localStorage.getItem('content')) || [
     {
       type: 'paragraph',
       children: [{ text: 'A line of text in a paragraph.' }],
     },
-  ])
+  ]);
 
   const renderElement = useCallback(props => {
     switch (props.element.type) {
@@ -89,41 +144,86 @@ const App = () => {
         <button
           onMouseDown={event => {
             event.preventDefault()
+            CustomEditor.toggleItalicMark(editor)
+          }}
+        >
+          <em>Italic</em>
+        </button>
+        <button
+          onMouseDown={event => {
+            event.preventDefault()
+            CustomEditor.toggleUnderlineMark(editor)
+          }}
+        >
+          <u>Underline</u>
+        </button>
+        <button
+          onMouseDown={event => {
+            event.preventDefault()
+            CustomEditor.toggleStrikethroughMark(editor)
+          }}
+        >
+          <del>Strikethrough</del>
+        </button>
+        <button
+          onMouseDown={event => {
+            event.preventDefault()
             CustomEditor.toggleCodeBlock(editor)
           }}
         >
-          Code Block
+          <code>Code Block</code>
         </button>
+        <hr></hr>
       </div>
       <Editable
         editor={editor}
         renderElement={renderElement}
         renderLeaf={renderLeaf}
+        placeholder="Enter some rich text…"
+        autoFocus
         onKeyDown={event => {
           if (!event.ctrlKey) {
             return
           }
 
           switch (event.key) {
-            case '`': {
-              event.preventDefault()
-              CustomEditor.toggleCodeBlock(editor)
-              break
-            }
-
             case 'b': {
               event.preventDefault()
               CustomEditor.toggleBoldMark(editor)
+              break
+            }
+
+            case 'i': {
+              event.preventDefault()
+              CustomEditor.toggleItalicMark(editor)
+              break
+            }
+
+            case 'u': {
+              event.preventDefault()
+              CustomEditor.toggleUnderlineMark(editor)
+              break
+            }
+
+            case 's': {
+              event.preventDefault()
+              CustomEditor.toggleStrikethrough(editor)
+              break
+            }
+
+            case '`': {
+              event.preventDefault()
+              CustomEditor.toggleCodeBlock(editor)
               break
             }
           }
         }}
       />
       <hr></hr>
-      <pre>
-      <code lang="json">
-        {JSON.stringify(JSON.parse(localStorage.content))}
-      </code></pre>
+      <div>
+        <p>CONTEXT:</p>
+        <pre>{JSON.stringify(value, null, 2)}</pre>
+      </div>
       <hr></hr>
     </Slate>
 
@@ -134,7 +234,11 @@ const Leaf = props => {
   return (
     <span
       {...props.attributes}
-      style={{ fontWeight: props.leaf.bold ? 'bold' : 'normal' }}
+      style={{ 
+        fontWeight: props.leaf.bold ? 'bold' : 'normal',
+        fontStyle: props.leaf.italic ? 'italic' : 'normal',
+        textDecorationLine: props.leaf.underline ? (props.leaf.strikethrough ? 'underline line-through' : 'underline') : (props.leaf.strikethrough ? 'line-through' : 'normal') }
+      }
     >
       {props.children}
     </span>
