@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom';
-import { Editor, Range } from 'slate';
+import { Editor, Range, Text, Transforms } from 'slate';
 import { ReactEditor, useSlate } from 'slate-react';
 import { cx, css } from '@emotion/css';
 import {
@@ -265,9 +265,10 @@ export const HoveringToolbar = () => {
           transition: opacity 0.75s;
         `}
       >
-        <FormatButton format="bold" icon="format_bold" />
-        <FormatButton format="italic" icon="format_italic" />
-        <FormatButton format="underlined" icon="format_underlined" />
+        <FormatButton format='bold' icon='format_bold' />
+        <FormatButton format='italic' icon='format_italic' />
+        <FormatButton format='underlined' icon='format_underlined' />
+        <FormatButton format='strikethrough' icon='strikethrough_s' />
       </Menu>
     </Portal>
   )
@@ -290,3 +291,13 @@ const FormatButton = ({ format, icon }) => {
   )
 };
 FormatButton.displayName = 'FormatButton';
+
+const toggleFormat = (editor, format) => {
+  const isActive = isFormatActive(editor, format)
+  Transforms.setNodes(
+    editor,
+    { [format]: isActive ? null : true },
+    { match: Text.isText, split: true }
+  )
+};
+toggleFormat.displayName = 'toggleFormat';
