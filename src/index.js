@@ -332,7 +332,7 @@ initialValue.displayName = 'initialValue'; */
 import * as React from "react";
 import { render } from "react-dom";
 import SlateEditor from "./components/SlateEditor";
-import { css, cx } from "emotion";
+import { cx, css } from "@emotion/css";
 
 import "./styles.css";
 

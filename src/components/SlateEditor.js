@@ -2,55 +2,24 @@ import React, { useCallback, useMemo, useState } from "react";
 import { createEditor } from "slate";
 import { Slate, Editable, withReact } from "slate-react";
 import { withHistory } from "slate-history";
-import { css, cx } from "emotion";
+import { cx, css } from "@emotion/css";
 import { withLinks } from "./plugins";
 import { BlockButton, LinkButton, MarkButton, Toolbar } from "./components";
 import { toggleKeyboardShortcut } from "./keyboardShortcuts";
 import { Element, Leaf } from "./toolbarElements";
+import initialValue from "./initialValue";
 
 function SlateEditor({ editorTitle, ...props }) {
+
+  // Keep track of state for the value of the editor.
+  const [value, setValue] = useState(initialValue);
+  // Use type any for now. Initial state for an app would be the data passed to the component.
+  
   // Create a Slate editor object that won't change across renders.
   const editor = useMemo(
     () => withLinks(withHistory(withReact(createEditor()))),
     []
   );
-
-  // Keep track of state for the value of the editor.
-  const [value, setValue] = useState([
-    {
-      type: "paragraph",
-      children: [
-        { text: "This is editable " },
-        { text: "rich", bold: true },
-        { text: " text, " },
-        { text: "much", italic: true },
-        { text: " better" },
-        { text: "!" }
-      ]
-    },
-    {
-      type: "paragraph",
-      children: [
-        {
-          text:
-            "Since it's rich text, you can do things like turn a selection of text "
-        },
-        { text: "bold", bold: true },
-        {
-          text:
-            ", or add a semantically rendered block quote in the middle of the page, like this:"
-        }
-      ]
-    },
-    {
-      type: "block-quote",
-      children: [{ text: "A wise quote." }]
-    },
-    {
-      type: "paragraph",
-      children: [{ text: "Try it out for yourself!" }]
-    }
-  ]); // Use type any for now. Initial state for an app would be the data passed to the component.
 
   // Define a rendering function based on the element passed to `props`. We use
   // `useCallback` here to memoize the function for subsequent renders.
@@ -80,25 +49,19 @@ function SlateEditor({ editorTitle, ...props }) {
             <LinkButton />
           </Toolbar>
           <Editable
+            autoFocus
             className={cx(css`
-              min-height: 400px;
               padding: 0 16px;
             `)}
             onKeyDown={event => {
-              if (event.key === "&") {
-                // Prevent the ampersand character from being inserted.
-                event.preventDefault();
-                // Execute a command to insert text when the event occurs.
-                editor.exec({ type: "insert_text", text: "and" });
-              }
               toggleKeyboardShortcut(event, editor);
             }}
+            placeholder='Enter some rich text…'
             renderElement={renderElement}
             renderLeaf={renderLeaf}
           />
         </div>
       </Slate>
-      <hr></hr>
       <div>
         <p>context:</p>
         <pre>{JSON.stringify(value, null, 2)}</pre>

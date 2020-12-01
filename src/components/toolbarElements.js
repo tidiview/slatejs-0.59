@@ -3,7 +3,6 @@
  * of the text in the SlateEditor component.
  */
 import React from "react";
-import { css, cx } from "emotion";
 
 export function Element({ attributes, children, element }) {
   switch (element.type) {

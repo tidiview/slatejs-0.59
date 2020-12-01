@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { useSlate } from "slate-react";
-import { cx, css } from 'emotion';
+import { cx, css } from "@emotion/css";
 import {
   isBlockActive,
   toggleBlock,
@@ -147,9 +147,8 @@ export const Toolbar = React.forwardRef(({ className, ...props }, ref) => (
       className,
       css`
         position: relative;
-        padding: 1px 18px 17px;
-        margin: 0 -20px;
-        border-bottom: 2px solid #eee;
+        padding: 10px 16px;
+        border-bottom: 1px solid #ccc;
         margin-bottom: 20px;
       `
     )}

@@ -1,8 +1,7 @@
 /* eslint-disable no-param-reassign */
 import isUrl from "is-url";
-import { Editor, Element } from "slate";
-
 import { wrapLink } from "./helpers";
+/* import { Editor, Element } from "slate"; */
 
 export function withLinks(editor) {
   const { insertData, insertText, isInline } = editor;
