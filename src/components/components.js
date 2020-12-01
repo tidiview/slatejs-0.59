@@ -262,7 +262,7 @@ export const HoveringToolbar = () => {
           opacity: 0;
           background-color: #222;
           border-radius: 4px;
-          transition: opacity 0.75s;
+          transition: opacity 0.85s;
         `}
       >
         <FormatButton format='bold' icon='format_bold' />

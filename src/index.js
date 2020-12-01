@@ -20,7 +20,7 @@ function App() {
       </div>
     </div>
   );
-}
+};
 
 const rootElement = document.getElementById('root');
 render(<App />, rootElement);
