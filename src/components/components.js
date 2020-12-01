@@ -1,6 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { useSlate } from "slate-react";
 import { cx, css } from 'emotion';
+import {
+  isBlockActive,
+  toggleBlock,
+  isMarkActive,
+  toggleMark,
+  isLinkActive,
+  insertLink
+} from "./helpers";
 
 export const Button = React.forwardRef(
   ({ className, active, reversed, ...props }, ref) => (
@@ -147,3 +156,53 @@ export const Toolbar = React.forwardRef(({ className, ...props }, ref) => (
   />
 ));
 Toolbar.displayName = 'Toolbar';
+
+export const BlockButton = ({ format, icon }) => {
+  const editor = useSlate();
+  return (
+    <Button
+      active={isBlockActive(editor, format)}
+      onMouseDown={event => {
+        event.preventDefault();
+        toggleBlock(editor, format);
+      }}
+    >
+      <Icon>{icon}</Icon>
+    </Button>
+  );
+};
+BlockButton.displayName = 'BlockButton';
+
+export const MarkButton = ({ format, icon }) => {
+  const editor = useSlate();
+  return (
+    <Button
+      active={isMarkActive(editor, format)}
+      onMouseDown={event => {
+        event.preventDefault();
+        toggleMark(editor, format);
+      }}
+    >
+      <Icon>{icon}</Icon>
+    </Button>
+  );
+};
+MarkButton.displayName = 'MarkButton';
+
+export const LinkButton = () => {
+  const editor = useSlate();
+  return (
+    <Button
+      active={isLinkActive(editor)}
+      onMouseDown={event => {
+        event.preventDefault();
+        const url = window.prompt('Enter the URL of the link:');
+        if (!url) return;
+        insertLink(editor, url);
+      }}
+    >
+      <Icon>link</Icon>
+    </Button>
+  );
+};
+LinkButton.displayName = 'LinkButton';

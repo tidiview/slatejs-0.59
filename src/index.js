@@ -1,24 +1,24 @@
-import React, { useCallback, useMemo, useState } from 'react';
-import { render } from 'react-dom';
-import isUrl from 'is-url';
-
-import isHotkey from 'is-hotkey';
-import { Editable, withReact, useSlate, Slate } from 'slate-react';
+/* import React, { useCallback, useMemo, useState } from 'react';
+import { render } from 'react-dom'; */
+/* import isUrl from 'is-url'; */
+/* import isHotkey from 'is-hotkey';
 import { Editor, Transforms, createEditor, Range } from 'slate';
-import { withHistory } from 'slate-history';
-import { Button, Icon, Toolbar } from './components';
+import { Editable, withReact, useSlate, Slate } from 'slate-react';
+import { withHistory } from 'slate-history'; 
+import { BlockButton, LinkButton, MarkButton, Toolbar } from "./components/components"; */
+/* import { Button, Icon, Toolbar } from './components/components'; */
 
-const HOTKEYS = {
+/* const HOTKEYS = {
   'mod+b': 'bold',
   'mod+i': 'italic',
   'mod+u': 'underline',
   'mod+s': 'strikethrough',
   'mod+`': 'code'
-};
+}; */
 
-const LIST_TYPES = ['numbered-list', 'bulleted-list'];
+/* const LIST_TYPES = ['numbered-list', 'bulleted-list']; */
 
-const MyEditor = () => {
+/* const MyEditor = () => {
   const [value, setValue] = useState(initialValue);
   const renderElement = useCallback(props => <Element {...props} />, []);
   const renderLeaf = useCallback(props => <Leaf {...props} />, []);
@@ -67,9 +67,9 @@ const MyEditor = () => {
     </>
   );
 };
-MyEditor.displayName = 'MyEditor';
+MyEditor.displayName = 'MyEditor'; */
 
-const withLinks = editor => {
+/* const withLinks = editor => {
   const { insertData, insertText, isInline } = editor;
 
   editor.isInline = element => {
@@ -96,16 +96,16 @@ const withLinks = editor => {
 
   return editor;
 };
-withLinks.displayName = 'withLinks';
+withLinks.displayName = 'withLinks'; */
 
-const insertLink = (editor, url) => {
+/* const insertLink = (editor, url) => {
   if (editor.selection) {
     wrapLink(editor, url);
   }
 };
-insertLink.displayName = 'insertLink';
+insertLink.displayName = 'insertLink'; */
 
-const LinkButton = () => {
+/* const LinkButton = () => {
   const editor = useSlate();
   return (
     <Button
@@ -121,20 +121,20 @@ const LinkButton = () => {
     </Button>
   );
 };
-LinkButton.displayName = 'LinkButton';
+LinkButton.displayName = 'LinkButton'; */
 
-const isLinkActive = editor => {
+/* const isLinkActive = editor => {
   const [link] = Editor.nodes(editor, { match: n => n.type === 'link' });
   return !!link;
 };
-isLinkActive.displayName = 'isLinkActive';
+isLinkActive.displayName = 'isLinkActive'; */
 
-const unwrapLink = editor => {
+/* const unwrapLink = editor => {
   Transforms.unwrapNodes(editor, { match: n => n.type === 'link' });
 };
-unwrapLink.displayName = 'unwrapLink';
+unwrapLink.displayName = 'unwrapLink'; */
 
-const wrapLink = (editor, url) => {
+/* const wrapLink = (editor, url) => {
   if (unwrapLink(editor)) {
     unwrapLink(editor);
   }
@@ -154,9 +154,9 @@ const wrapLink = (editor, url) => {
     Transforms.collapse(editor, { edge: 'end' });
   }
 };
-wrapLink.displayName = 'wrapLink';
+wrapLink.displayName = 'wrapLink'; */
 
-const toggleBlock = (editor, format) => {
+/* const toggleBlock = (editor, format) => {
   const isActive = isBlockActive(editor, format);
   const isList = LIST_TYPES.includes(format);
 
@@ -174,9 +174,9 @@ const toggleBlock = (editor, format) => {
     Transforms.wrapNodes(editor, block);
   }
 };
-toggleBlock.displayName = 'toggleBlock';
+toggleBlock.displayName = 'toggleBlock'; */
 
-const toggleMark = (editor, format) => {
+/* const toggleMark = (editor, format) => {
   const isActive = isMarkActive(editor, format);
 
   if (isActive) {
@@ -185,24 +185,24 @@ const toggleMark = (editor, format) => {
     Editor.addMark(editor, format, true);
   }
 };
-toggleMark.displayName = 'toggleMark';
+toggleMark.displayName = 'toggleMark'; */
 
-const isBlockActive = (editor, format) => {
+/* const isBlockActive = (editor, format) => {
   const [match] = Editor.nodes(editor, {
     match: n => n.type === format
   });
 
   return !!match;
 };
-isBlockActive.displayName = 'isBlockActive';
+isBlockActive.displayName = 'isBlockActive'; */
 
-const isMarkActive = (editor, format) => {
+/* const isMarkActive = (editor, format) => {
   const marks = Editor.marks(editor);
   return marks ? marks[format] === true : false;
 };
-isMarkActive.displayName = 'isMarkActive';
+isMarkActive.displayName = 'isMarkActive'; */
 
-const Element = ({ attributes, children, element }) => {
+/* const Element = ({ attributes, children, element }) => {
   switch (element.type) {
     case 'block-quote':
       return <blockquote {...attributes}>{children}</blockquote>;
@@ -226,9 +226,9 @@ const Element = ({ attributes, children, element }) => {
       return <p {...attributes}>{children}</p>;
   }
 };
-Element.displayName = 'Element';
+Element.displayName = 'Element'; */
 
-const Leaf = ({ attributes, children, leaf }) => {
+/* const Leaf = ({ attributes, children, leaf }) => {
   if (leaf.bold) {
     children = <strong>{children}</strong>;
   }
@@ -251,9 +251,9 @@ const Leaf = ({ attributes, children, leaf }) => {
 
   return <span {...attributes}>{children}</span>;
 };
-Leaf.displayName = 'Leaf';
+Leaf.displayName = 'Leaf'; */
 
-const BlockButton = ({ format, icon }) => {
+/* const BlockButton = ({ format, icon }) => {
   const editor = useSlate();
   return (
     <Button
@@ -267,9 +267,9 @@ const BlockButton = ({ format, icon }) => {
     </Button>
   );
 };
-BlockButton.displayName = 'BlockButton';
+BlockButton.displayName = 'BlockButton'; */
 
-const MarkButton = ({ format, icon }) => {
+/* const MarkButton = ({ format, icon }) => {
   const editor = useSlate();
   return (
     <Button
@@ -283,9 +283,9 @@ const MarkButton = ({ format, icon }) => {
     </Button>
   );
 };
-MarkButton.displayName = 'MarkButton';
+MarkButton.displayName = 'MarkButton'; */
 
-const initialValue = [
+/* const initialValue = [
   {
     type: "paragraph",
     children: [
@@ -322,6 +322,36 @@ const initialValue = [
     children: [{ text: "Try it out for yourself!" }]
   }
 ];
-initialValue.displayName = 'initialValue';
+initialValue.displayName = 'initialValue'; */
 
-render(<MyEditor />, document.getElementById('root'));
+/* render(<MyEditor />, document.getElementById('root')); */
+
+
+
+
+import * as React from "react";
+import { render } from "react-dom";
+import SlateEditor from "./components/SlateEditor";
+import { css, cx } from "emotion";
+
+import "./styles.css";
+
+function App() {
+  return (
+    <div className="App">
+      <div
+        className={cx(css`
+          max-width: 50em;
+          background: rgb(255, 255, 255);
+          margin: 20px auto;
+          padding: 20px;
+        `)}
+      >
+        <SlateEditor editorTitle="Slate editor" />
+      </div>
+    </div>
+  );
+}
+
+const rootElement = document.getElementById("root");
+render(<App />, rootElement);
