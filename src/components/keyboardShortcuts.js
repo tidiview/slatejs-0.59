@@ -1,15 +1,15 @@
 /**
  * Keyboard shortcut related logic for the SlateEditor component
  */
-import { isHotkey } from "is-hotkey";
-import { toggleMark } from "./helpers";
+import { isHotkey } from 'is-hotkey';
+import { toggleMark } from './helpers';
 
 export const HOTKEYS = {
-  "mod+b": "bold",
-  "mod+i": "italic",
-  "mod+u": "underline",
+  'mod+b': 'bold',
+  'mod+i': 'italic',
+  'mod+u': 'underline',
   'mod+s': 'strikethrough',
-  "mod+shift+enter": "code"
+  'mod+shift+enter': 'code'
 };
 
 export const toggleKeyboardShortcut = (event, editor) => {

@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { useSlate } from "slate-react";
-import { cx, css } from "@emotion/css";
+import { useSlate } from 'slate-react';
+import { cx, css } from '@emotion/css';
 import {
   isBlockActive,
   toggleBlock,
@@ -9,7 +9,7 @@ import {
   toggleMark,
   isLinkActive,
   insertLink
-} from "./helpers";
+} from './helpers';
 
 export const Button = React.forwardRef(
   ({ className, active, reversed, ...props }, ref) => (
@@ -56,7 +56,7 @@ export const EditorValue = React.forwardRef(
             font-size: 14px;
             padding: 5px 20px;
             color: #404040;
-            border-top: 2px solid #eeeeee;
+            border-top: 2px solid #eee;
             background: #f8f8f8;
           `}
         >

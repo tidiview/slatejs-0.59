@@ -1,13 +1,13 @@
 /* eslint-disable no-param-reassign */
-import isUrl from "is-url";
-import { wrapLink } from "./helpers";
-/* import { Editor, Element } from "slate"; */
+import isUrl from 'is-url';
+import { wrapLink } from './helpers';
+/* import { Editor, Element } from 'slate'; */
 
 export function withLinks(editor) {
   const { insertData, insertText, isInline } = editor;
 
   editor.isInline = (element) => {
-    return element.type === "link" ? true : isInline(element);
+    return element.type === 'link' ? true : isInline(element);
   };
 
   editor.insertText = (text) => {
@@ -19,7 +19,7 @@ export function withLinks(editor) {
   };
 
   editor.insertData = (data) => {
-    const text = data.getData("text/plain");
+    const text = data.getData('text/plain');
 
     if (text && isUrl(text)) {
       wrapLink(editor, text);

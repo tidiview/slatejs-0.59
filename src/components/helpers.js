@@ -1,9 +1,9 @@
 /**
  * Helper functions for the SlateEditor component.
  */
-import { Editor, Transforms, Range } from "slate";
+import { Editor, Transforms, Range } from 'slate';
 
-export const LIST_TYPES = ["numbered-list", "bulleted-list"];
+export const LIST_TYPES = ['numbered-list', 'bulleted-list'];
 
 /**
  * Checks whether a format block is active or not in the editor.
@@ -34,7 +34,7 @@ export const toggleBlock = (editor, format) => {
   });
 
   Transforms.setNodes(editor, {
-    type: isActive ? "paragraph" : isList ? "list-item" : format
+    type: isActive ? 'paragraph' : isList ? 'list-item' : format
   });
 
   if (!isActive && isList) {
@@ -76,7 +76,7 @@ toggleMark.displayName = 'toggleMark';
  * @param editor The current Slate editor
  */
 export const isLinkActive = editor => {
-  const [link] = Editor.nodes(editor, { match: n => n.type === "link" });
+  const [link] = Editor.nodes(editor, { match: n => n.type === 'link' });
   return !!link;
 };
 isLinkActive.displayName = 'isLinkActive';
@@ -86,7 +86,7 @@ isLinkActive.displayName = 'isLinkActive';
  * @param editor The current Slate editor
  */
 export const unwrapLink = editor => {
-  Transforms.unwrapNodes(editor, { match: n => n.type === "link" });
+  Transforms.unwrapNodes(editor, { match: n => n.type === 'link' });
 };
 unwrapLink.displayName = 'unwrapLink';
 
@@ -103,7 +103,7 @@ export const wrapLink = (editor, url) => {
   const { selection } = editor;
   const isCollapsed = selection && Range.isCollapsed(selection);
   const link = {
-    type: "link",
+    type: 'link',
     url,
     children: isCollapsed ? [{ text: url }] : []
   };
@@ -112,7 +112,7 @@ export const wrapLink = (editor, url) => {
     Transforms.insertNodes(editor, link);
   } else {
     Transforms.wrapNodes(editor, link, { split: true });
-    Transforms.collapse(editor, { edge: "end" });
+    Transforms.collapse(editor, { edge: 'end' });
   }
 };
 wrapLink.displayName = 'wrapLink';

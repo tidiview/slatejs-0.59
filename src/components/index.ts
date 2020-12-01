@@ -1,4 +1,4 @@
-import SlateEditor from "./SlateEditor";
+import SlateEditor from './SlateEditor';
 
-export * from "./SlateEditor";
+export * from './SlateEditor';
 export default SlateEditor;

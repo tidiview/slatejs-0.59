@@ -1,13 +1,13 @@
-import React, { useCallback, useMemo, useState } from "react";
-import { createEditor } from "slate";
-import { Slate, Editable, withReact } from "slate-react";
-import { withHistory } from "slate-history";
-import { cx, css } from "@emotion/css";
-import { withLinks } from "./plugins";
-import { BlockButton, LinkButton, MarkButton, Toolbar } from "./components";
-import { toggleKeyboardShortcut } from "./keyboardShortcuts";
-import { Element, Leaf } from "./toolbarElements";
-import initialValue from "./initialValue";
+import React, { useCallback, useMemo, useState } from 'react';
+import { createEditor } from 'slate';
+import { Slate, Editable, withReact } from 'slate-react';
+import { withHistory } from 'slate-history';
+import { cx, css } from '@emotion/css';
+import { withLinks } from './plugins';
+import { BlockButton, LinkButton, MarkButton, Toolbar } from './components';
+import { toggleKeyboardShortcut } from './keyboardShortcuts';
+import { Element, Leaf } from './toolbarElements';
+import initialValue from './initialValue';
 
 function SlateEditor({ editorTitle, ...props }) {
 
@@ -15,16 +15,16 @@ function SlateEditor({ editorTitle, ...props }) {
   const [value, setValue] = useState(initialValue);
   // Use type any for now. Initial state for an app would be the data passed to the component.
   
+  // Define a rendering function based on the element passed to `props`. We use
+  // `useCallback` here to memoize the function for subsequent renders.
+  const renderElement = useCallback(props => <Element {...props} />, []);
+  const renderLeaf = useCallback(props => <Leaf {...props} />, []);
+
   // Create a Slate editor object that won't change across renders.
   const editor = useMemo(
     () => withLinks(withHistory(withReact(createEditor()))),
     []
   );
-
-  // Define a rendering function based on the element passed to `props`. We use
-  // `useCallback` here to memoize the function for subsequent renders.
-  const renderElement = useCallback(props => <Element {...props} />, []);
-  const renderLeaf = useCallback(props => <Leaf {...props} />, []);
 
   return (
     <div>
@@ -36,16 +36,16 @@ function SlateEditor({ editorTitle, ...props }) {
           `)}
         >
           <Toolbar>
-            <MarkButton format="bold" icon="format_bold" />
-            <MarkButton format="italic" icon="format_italic" />
-            <MarkButton format="underline" icon="format_underlined" />
+            <MarkButton format='bold' icon='format_bold' />
+            <MarkButton format='italic' icon='format_italic' />
+            <MarkButton format='underline' icon='format_underlined' />
             <MarkButton format='strikethrough' icon='strikethrough_s' />
-            <MarkButton format="code" icon="code" />
-            <BlockButton format="heading-one" icon="looks_one" />
-            <BlockButton format="heading-two" icon="looks_two" />
-            <BlockButton format="block-quote" icon="format_quote" />
-            <BlockButton format="numbered-list" icon="format_list_numbered" />
-            <BlockButton format="bulleted-list" icon="format_list_bulleted" />
+            <MarkButton format='code' icon='code' />
+            <BlockButton format='heading-one' icon='looks_one' />
+            <BlockButton format='heading-two' icon='looks_two' />
+            <BlockButton format='block-quote' icon='format_quote' />
+            <BlockButton format='numbered-list' icon='format_list_numbered' />
+            <BlockButton format='bulleted-list' icon='format_list_bulleted' />
             <LinkButton />
           </Toolbar>
           <Editable

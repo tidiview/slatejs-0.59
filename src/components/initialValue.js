@@ -19,7 +19,7 @@ const initialValue = [
         text:
           "Since it's rich text, you can do things like turn a selection of text "
       },
-      { text: 'bold', bold: true },
+      { text: "bold", bold: true },
       {
         text:
           ", or add a semantically rendered block quote in the middle of the page, like this:"
@@ -27,11 +27,11 @@ const initialValue = [
     ]
   },
   {
-    type: 'block-quote',
+    type: "block-quote",
     children: [{ text: "A wise quote." }]
   },
   {
-    type: 'paragraph',
+    type: "paragraph",
     children: [{ text: "Try it out for yourself!" }]
   }
 ];

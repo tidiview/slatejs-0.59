@@ -2,7 +2,7 @@
  * Toolbar elements that modify the look and formatting
  * of the text in the SlateEditor component.
  */
-import React from "react";
+import React from 'react';
 
 export function Element({ attributes, children, element }) {
   switch (element.type) {
