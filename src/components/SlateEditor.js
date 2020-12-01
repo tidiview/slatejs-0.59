@@ -4,7 +4,7 @@ import { Slate, Editable, withReact } from 'slate-react';
 import { withHistory } from 'slate-history';
 import { cx, css } from '@emotion/css';
 import { withLinks } from './plugins';
-import { BlockButton, LinkButton, MarkButton, Toolbar } from './components';
+import { BlockButton, HoveringToolbar, LinkButton, MarkButton, Toolbar } from './components';
 import { toggleKeyboardShortcut } from './keyboardShortcuts';
 import { Element, Leaf } from './toolbarElements';
 import initialValue from './initialValue';
@@ -30,9 +30,11 @@ function SlateEditor({ editorTitle, ...props }) {
     <div>
       <h4>{editorTitle}</h4>
       <Slate editor={editor} value={value} onChange={value => setValue(value)}>
+      <HoveringToolbar />
         <div
           className={cx(css`
             border: 1px solid #ccc;
+            background: white;
           `)}
         >
           <Toolbar>
@@ -59,6 +61,17 @@ function SlateEditor({ editorTitle, ...props }) {
             placeholder='Enter some rich text…'
             renderElement={renderElement}
             renderLeaf={renderLeaf}
+            onDOMBeforeInput={event => {
+              event.preventDefault()
+              switch (event.inputType) {
+                case 'formatBold':
+                  return toggleFormat(editor, 'bold')
+                case 'formatItalic':
+                  return toggleFormat(editor, 'italic')
+                case 'formatUnderline':
+                  return toggleFormat(editor, 'underline')
+              }
+            }}
           />
         </div>
       </Slate>

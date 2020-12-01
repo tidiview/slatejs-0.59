@@ -6,10 +6,10 @@
   "description": "a slate editor (version 0.59) connected with github as a back end with slate-history plugin as a react app.",
   "keywords": [
     "slate",
+    "slate-editor",
     "slate-history",
     "slate-hyperscript",
     "slate-react",
-    "slate-editor",
     "0.59"
   ],
   "homepage": "https://tidiview.github.io/slate-0.59",

@@ -128,3 +128,12 @@ export const insertLink = (editor, url) => {
   }
 };
 insertLink.displayName = 'insertLink';
+
+export const isFormatActive = (editor, format) => {
+  const [match] = Editor.nodes(editor, {
+    match: n => n[format] === true,
+    mode: 'all',
+  })
+  return !!match
+};
+isFormatActive.displayName = 'isFormatActive';
