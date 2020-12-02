@@ -14,6 +14,16 @@ function SlateEditor({ editorTitle, ...props }) {
   // Keep track of state for the value of the editor.
   const [value, setValue] = useState(initialValue);
   // Use type any for now. Initial state for an app would be the data passed to the component.
+
+  const handleSaveToPC = jsonData => {
+    const fileData = JSON.stringify(jsonData);
+    const blob = new Blob([fileData], {type: "application/json"});
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.download = 'value.json';
+    link.href = url;
+    link.click();
+  }
   
   // Define a rendering function based on the element passed to `props`. We use
   // `useCallback` here to memoize the function for subsequent renders.
@@ -76,7 +86,7 @@ function SlateEditor({ editorTitle, ...props }) {
         </div>
       </Slate>
       <div>
-        <p>context:</p>
+        <p><a /* id='publish-anchor' download='value.json' */ prout={handleSaveToPC(value)}>publish</a> | context:</p>
         <pre>{JSON.stringify(value, null, 2)}</pre>
       </div>
     </div>
