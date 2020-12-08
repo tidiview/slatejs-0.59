@@ -14,17 +14,9 @@ function SlateEditor({ editorTitle, ...props }) {
   // Keep track of state for the value of the editor.
   const [value, setValue] = useState(initialValue);
   // Use type any for now. Initial state for an app would be the data passed to the component.
-
-  const handleSaveToPC = jsonData => {
-    const fileData = JSON.stringify(jsonData);
-    const blob = new Blob([fileData], {type: "application/json"});
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.download = 'value.json';
-    link.href = url;
-    link.click();
-  }
   
+  console.log(value)
+
   // Define a rendering function based on the element passed to `props`. We use
   // `useCallback` here to memoize the function for subsequent renders.
   const renderElement = useCallback(props => <Element {...props} />, []);
@@ -39,7 +31,13 @@ function SlateEditor({ editorTitle, ...props }) {
   return (
     <div>
       <h4>{editorTitle}</h4>
-      <Slate editor={editor} value={value} onChange={value => setValue(value)}>
+      <Slate editor={editor} value={value} /* onChange={value => setValue(value)} */ onChange={newValue => {
+        if(newValue !== value) {
+          // document actually changed
+          localStorage.setItem('content', JSON.stringify(newValue))
+        }
+        setValue(newValue)
+      }}>
       <HoveringToolbar />
         <div
           className={cx(css`
@@ -71,22 +69,11 @@ function SlateEditor({ editorTitle, ...props }) {
             placeholder='Enter some rich text…'
             renderElement={renderElement}
             renderLeaf={renderLeaf}
-            onDOMBeforeInput={event => {
-              event.preventDefault()
-              switch (event.inputType) {
-                case 'formatBold':
-                  return toggleFormat(editor, 'bold')
-                case 'formatItalic':
-                  return toggleFormat(editor, 'italic')
-                case 'formatUnderline':
-                  return toggleFormat(editor, 'underline')
-              }
-            }}
           />
         </div>
       </Slate>
       <div>
-        <p><a /* id='publish-anchor' download='value.json' */ prout={handleSaveToPC(value)}>publish</a> | context:</p>
+        <p>{/* <a id='publish-anchor' download='value.json' prout={handleSaveToPC(value)}>publish</a> |  */}context:</p>
         <pre>{JSON.stringify(value, null, 2)}</pre>
       </div>
     </div>
@@ -95,3 +82,13 @@ function SlateEditor({ editorTitle, ...props }) {
 SlateEditor.displayName = 'SlateEditor';
 
 export default SlateEditor;
+
+  /* const handleSaveToPC = jsonData => {
+    const fileData = JSON.stringify(jsonData);
+    const blob = new Blob([fileData], {type: "application/json"});
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.download = 'value.json';
+    link.href = url;
+    link.click();
+  } */
