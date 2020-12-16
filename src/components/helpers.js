@@ -196,3 +196,15 @@ export const insertRuby = (editor, rt) => {
   }
 };
 insertRuby.displayName = 'insertRuby';
+
+/**
+ * This will insert an image into the Slate editor.
+ * @param editor The current Slate editor
+ * @param url The url to insert
+ */
+export const insertImage = (editor, url) => {
+  const text = { text: '' }
+  const image = { type: 'image', url, children: [text] }
+  Transforms.insertNodes(editor, image)
+}
+insertImage.displayName = 'insertImage';

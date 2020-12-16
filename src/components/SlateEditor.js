@@ -3,8 +3,8 @@ import { createEditor } from 'slate';
 import { Slate, Editable, withReact } from 'slate-react';
 import { withHistory } from 'slate-history';
 import { cx, css } from '@emotion/css';
-import { withLinks, withRuby } from './plugins';
-import { BlockButton, HoveringToolbar, LinkButton, RubyButton, MarkButton, Toolbar } from './components';
+import { withLinks, withRuby, withImages } from './plugins';
+import { BlockButton, HoveringToolbar, MarkButton, LinkButton, RubyButton, ImageButton, Toolbar } from './components';
 import { toggleKeyboardShortcut } from './keyboardShortcuts';
 import { Element, Leaf } from './toolbarElements';
 import initialValue from './initialValue';
@@ -15,7 +15,7 @@ function SlateEditor({ editorTitle, ...props }) {
   const [value, setValue] = useState(initialValue);
   // Use type any for now. Initial state for an app would be the data passed to the component.
   
-  console.log(value)
+  /* console.log(value) */
 
   // Define a rendering function based on the element passed to `props`. We use
   // `useCallback` here to memoize the function for subsequent renders.
@@ -24,7 +24,7 @@ function SlateEditor({ editorTitle, ...props }) {
 
   // Create a Slate editor object that won't change across renders.
   const editor = useMemo(
-    () => withHistory(withRuby(withLinks(withReact(createEditor())))),
+    () => withHistory(withImages(withRuby(withLinks(withReact(createEditor()))))),
     []
   );
 
@@ -58,6 +58,7 @@ function SlateEditor({ editorTitle, ...props }) {
             <BlockButton format='bulleted-list' icon='format_list_bulleted' />
             <LinkButton />
             <RubyButton />
+            <ImageButton />
           </Toolbar>
           <Editable
             autoFocus

@@ -1,2 +1,4 @@
 node_modules
 .eslintcache
+src/components/--exemple-figure.html
+src/components/--pasteHtml.js

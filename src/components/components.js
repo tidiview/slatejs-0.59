@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom';
 import { Editor, Range, Text, Transforms } from 'slate';
-import { ReactEditor, useSlate } from 'slate-react';
+import { ReactEditor, useSlate, useSlateStatic, useSelected, useFocused } from 'slate-react';
 import { cx, css } from '@emotion/css';
 import {
   isBlockActive,
@@ -12,7 +12,8 @@ import {
   isRubyActive,
   isFormatActive,
   insertLink,
-  insertRuby
+  insertRuby,
+  insertImage
 } from './helpers';
 
 export const Button = React.forwardRef(
@@ -235,6 +236,46 @@ export const RubyButton = () => {
   );
 };
 RubyButton.displayName = 'RubyButton';
+
+//imageElement copied from docs
+export const ImageElement = ({ attributes, children, element }) => {
+  const selected = useSelected()
+  const focused = useFocused()
+  return (
+    <div {...attributes}>
+      <div contentEditable={false}>
+        <img
+          src={element.url}
+          className={css`
+            display: block;
+            max-width: 100%;
+            max-height: 20em;
+            box-shadow: ${selected && focused ? '0 0 0 3px #B4D5FF' : 'none'};
+          `}
+        />
+      </div>
+      {children}
+    </div>
+  )
+}
+ImageElement.displayName= 'ImageElement'
+
+export const ImageButton = () => {
+  const editor = useSlate()
+  return (
+    <Button
+      onMouseDown={event => {
+        event.preventDefault()
+        const url = window.prompt('Enter the URL of the image:')
+        if (!url) return
+        insertImage(editor, url)
+      }}
+    >
+      <Icon>image</Icon>
+    </Button>
+  )
+};
+ImageButton.displayName= 'ImageButton'
 
 export const HoveringToolbar = () => {
   const ref = useRef()

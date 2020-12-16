@@ -3,8 +3,11 @@
  * of the text in the SlateEditor component.
  */
 import React from 'react';
+import { ImageElement } from './components';
 
-export function Element({ attributes, children, element }) {
+export const Element = props => { 
+  const { attributes, children, element } = props 
+  
   switch (element.type) {
     case 'block-quote':
       return <blockquote {...attributes}>{children}</blockquote>;
@@ -30,6 +33,8 @@ export function Element({ attributes, children, element }) {
           {children}<rt>{element.rt}</rt>
         </ruby>
       );
+    case 'image':
+      return <ImageElement {...props} />
     default:
       return <p {...attributes}>{children}</p>;
   }
