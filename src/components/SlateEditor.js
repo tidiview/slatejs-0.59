@@ -24,7 +24,7 @@ function SlateEditor({ editorTitle, ...props }) {
 
   // Create a Slate editor object that won't change across renders.
   const editor = useMemo(
-    () => withRuby(withLinks(withHistory(withReact(createEditor())))),
+    () => withHistory(withRuby(withLinks(withReact(createEditor())))),
     []
   );
 

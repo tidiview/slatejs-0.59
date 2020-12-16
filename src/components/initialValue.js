@@ -36,6 +36,38 @@ const initialValue = existingValue || [
   {
     type: "paragraph",
     children: [{ text: "Try it out for yourself!" }]
+  },
+  {
+    type: "paragraph",
+    children: [
+      {
+        "text": "日本語の"
+      },
+      {
+        "type": "ruby",
+        "rt": "かく",
+        "children": [
+          {
+            "text": "確",
+          }
+        ]
+      },
+      {
+        "text": ""
+      },
+      {
+        "type": "ruby",
+        "rt": "にん",
+        "children": [
+          {
+            "text": "認",
+          }
+        ]
+      },
+      {
+        "text": "です。結構、綺麗ですかね。綺麗ようですが。。。素晴らしいと言いましょう！"
+      }
+    ]
   }
 ];
 initialValue.displayName = 'initialValue';
