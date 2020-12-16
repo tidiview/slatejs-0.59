@@ -2,6 +2,11 @@ html {
   background-color: #999;
 }
 
+rt {
+  font-size: 70%;
+  letter-spacing: 1px;
+}
+
 .App {
   font-family: sans-serif;
 }

@@ -137,3 +137,62 @@ export const isFormatActive = (editor, format) => {
   return !!match
 };
 isFormatActive.displayName = 'isFormatActive';
+
+//Ruby is inspired from Link above
+/**
+ * Check whether the ruby button is active or not in the editor.
+ * @param editor The current Slate editor
+ */
+export const isRubyActive = editor => {
+  const [rtstring] = Editor.nodes(editor, { match: n => n.type === 'ruby' });
+  return !!rtstring;
+};
+isRubyActive.displayName = 'isRubyActive';
+
+/**
+ * Unwraps a ruby node from the editor.
+ * @param editor The current Slate editor
+ */
+export const unwrapRuby = editor => {
+  Transforms.unwrapNodes(editor, { match: n => n.type === 'ruby' });
+};
+unwrapRuby.displayName = 'unwrapRuby';
+
+/**
+ * Wraps a ruby node to the editor.
+ * @param editor The current Slate editor
+ * @param rt The rt to wrap into a node
+ */
+export const wrapRuby = (editor, rt) => {
+  if (isRubyActive(editor)) {
+    unwrapRuby(editor);
+  }
+
+  const { selection } = editor;
+  const isCollapsed = selection && Range.isCollapsed(selection);
+  const rtstring = {
+    type: 'ruby',
+    rt,
+    children: isCollapsed ? [{ text: rt }] : []
+  };
+
+  if (isCollapsed) {
+    Transforms.insertNodes(editor, rtstring);
+  } else {
+    Transforms.wrapNodes(editor, rtstring, { split: true });
+    Transforms.collapse(editor, { edge: 'end' });
+  }
+};
+wrapRuby.displayName = 'wrapRuby';
+
+/**
+ * This will insert a ruby into the Slate editor.
+ * @param editor The current Slate editor
+ * @param rt The rt to insert
+ */
+export const insertRuby = (editor, rt) => {
+  if (editor.selection) {
+    wrapRuby(editor, rt);
+  }
+};
+insertRuby.displayName = 'insertRuby';

@@ -9,8 +9,10 @@ import {
   isMarkActive,
   toggleMark,
   isLinkActive,
+  isRubyActive,
   isFormatActive,
-  insertLink
+  insertLink,
+  insertRuby
 } from './helpers';
 
 export const Button = React.forwardRef(
@@ -214,6 +216,25 @@ export const LinkButton = () => {
   );
 };
 LinkButton.displayName = 'LinkButton';
+
+// RubyButton copied from LinkButton
+export const RubyButton = () => {
+  const editor = useSlate();
+  return (
+    <Button
+      active={isRubyActive(editor)}
+      onMouseDown={event => {
+        event.preventDefault();
+        const rt = window.prompt('Enter the pronunciation:');
+        if (!rt) return;
+        insertRuby(editor, rt);
+      }}
+    >
+      <Icon>translate</Icon>
+    </Button>
+  );
+};
+RubyButton.displayName = 'RubyButton';
 
 export const HoveringToolbar = () => {
   const ref = useRef()

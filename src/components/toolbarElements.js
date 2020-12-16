@@ -24,6 +24,12 @@ export function Element({ attributes, children, element }) {
           {children}
         </a>
       );
+    case 'ruby':
+      return (
+        <ruby {...attributes}>
+          {children}<rt>{element.rt}</rt>
+        </ruby>
+      );
     default:
       return <p {...attributes}>{children}</p>;
   }
