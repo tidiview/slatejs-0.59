@@ -16,19 +16,21 @@ export const Element = props => {
     case 'heading-two':
       return <h2 {...attributes}>{children}</h2>;
     case 'heading-three':
-      return <h3 {...attributes}>{children}</h3>
+      return <h3 {...attributes}>{children}</h3>;
     case 'heading-four':
-      return <h4 {...attributes}>{children}</h4>
+      return <h4 {...attributes}>{children}</h4>;
     case 'heading-five':
-      return <h5 {...attributes}>{children}</h5>
+      return <h5 {...attributes}>{children}</h5>;
     case 'heading-six':
-      return <h6 {...attributes}>{children}</h6>
+      return <h6 {...attributes}>{children}</h6>;
     case 'list-item':
       return <li {...attributes}>{children}</li>;
     case 'bulleted-list':
-      return <ul {...attributes}>{children}</ul>
+      return <ul {...attributes}>{children}</ul>;
     case 'numbered-list':
       return <ol {...attributes}>{children}</ol>;
+    case 'sup':
+      return <sup {...attributes}>{children}</sup>;
     case 'link':
       return (
         <a {...attributes} href={element.url}>
@@ -48,7 +50,7 @@ export const Element = props => {
         <pre>
           <code {...attributes}>{children}</code>
         </pre>
-      )
+      );
     default:
       return <p {...attributes}>{children}</p>;
   }
@@ -70,6 +72,10 @@ export function Leaf({ attributes, children, leaf }) {
 
   if (leaf.strikethrough) {
     children = <del>{children}</del>;
+  }
+
+  if (leaf.sup) {
+    children = <sup>{children}</sup>;
   }
 
   if (leaf.code) {

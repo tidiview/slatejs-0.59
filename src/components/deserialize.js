@@ -25,6 +25,7 @@ const TEXT_TAGS = {
   I: () => ({ italic: true }),
   S: () => ({ strikethrough: true }),
   STRONG: () => ({ bold: true }),
+  SUP: () => ({ sup: true }),
   U: () => ({ underline: true }),
 }
 
