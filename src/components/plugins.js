@@ -1,9 +1,11 @@
 /* eslint-disable no-param-reassign */
+import { Transforms } from 'slate';
 import isUrl from 'is-url';
 import imageExtensions from 'image-extensions'
 import { wrapLink, wrapRuby, insertImage } from './helpers';
-/* import { Editor, Element } from 'slate'; */
+import { deserialize } from './deserialize';
 
+// withLinks from the Docs
 export function withLinks(editor) {
   const { insertData, insertText, isInline } = editor;
 
@@ -35,7 +37,6 @@ withLinks.displayName = 'withLinks';
 
 
 // withRuby is inspired from withLinks
-
 export function withRuby(editor) {
   const { insertData, insertText, isInline } = editor;
 
@@ -65,6 +66,8 @@ export function withRuby(editor) {
 };
 withRuby.displayName = 'withRuby';
 
+
+// withImages from the Docs
 export function withImages(editor) {
   const { insertData, isVoid } = editor
 
@@ -108,3 +111,33 @@ const isImageUrl = url => {
   return imageExtensions.includes(ext)
 }
 isImageUrl.displayName= 'isImageUrl'
+
+
+// withHtml copied from docs 'paste-html'
+export function withHtml(editor) {
+  const { insertData, isInline, isVoid } = editor
+
+  editor.isInline = element => {
+    return element.type === 'link' ? true : isInline(element)
+  }
+
+  editor.isVoid = element => {
+    return element.type === 'image' ? true : isVoid(element)
+  }
+
+  editor.insertData = data => {
+    const html = data.getData('text/html')
+
+    if (html) {
+      const parsed = new DOMParser().parseFromString(html, 'text/html')
+      const fragment = deserialize(parsed.body)
+      Transforms.insertFragment(editor, fragment)
+      return
+    }
+
+    insertData(data)
+  }
+
+  return editor
+};
+withHtml.displayName= 'withHtml'

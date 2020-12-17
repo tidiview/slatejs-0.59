@@ -3,19 +3,17 @@ import { createEditor } from 'slate';
 import { Slate, Editable, withReact } from 'slate-react';
 import { withHistory } from 'slate-history';
 import { cx, css } from '@emotion/css';
-import { withLinks, withRuby, withImages } from './plugins';
+import { withLinks, withRuby, withImages, withHtml } from './plugins';
 import { BlockButton, HoveringToolbar, MarkButton, LinkButton, RubyButton, ImageButton, Toolbar } from './components';
 import { toggleKeyboardShortcut } from './keyboardShortcuts';
 import { Element, Leaf } from './toolbarElements';
-import initialValue from './initialValue';
+import { initialValue } from './initialValue';
 
 function SlateEditor({ editorTitle, ...props }) {
 
   // Keep track of state for the value of the editor.
   const [value, setValue] = useState(initialValue);
   // Use type any for now. Initial state for an app would be the data passed to the component.
-  
-  /* console.log(value) */
 
   // Define a rendering function based on the element passed to `props`. We use
   // `useCallback` here to memoize the function for subsequent renders.
@@ -24,27 +22,26 @@ function SlateEditor({ editorTitle, ...props }) {
 
   // Create a Slate editor object that won't change across renders.
   const editor = useMemo(
-    () => withHistory(withImages(withRuby(withLinks(withReact(createEditor()))))),
+    () => withHtml(withImages(withRuby(withLinks(withReact(withHistory(createEditor())))))),
     []
   );
 
   return (
     <div>
       <h4>{editorTitle}</h4>
-      <Slate editor={editor} value={value} /* onChange={value => setValue(value)} */ onChange={newValue => {
+      <Slate editor={editor} value={value} onChange={newValue => {
         if(newValue !== value) {
           // document actually changed
-          localStorage.setItem('content', JSON.stringify(newValue))
+          localStorage.setItem('slate-content', JSON.stringify(newValue))
         }
-        setValue(newValue)
-      }}>
+        setValue(newValue) /* onChange={value => setValue(value)} */
+      }} {...props}>
       <HoveringToolbar />
         <div
           className={cx(css`
             border: 1px solid #ccc;
             background: white;
-          `)}
-        >
+          `)}>
           <Toolbar>
             <MarkButton format='bold' icon='format_bold' />
             <MarkButton format='italic' icon='format_italic' />
@@ -62,15 +59,15 @@ function SlateEditor({ editorTitle, ...props }) {
           </Toolbar>
           <Editable
             autoFocus
-            className={cx(css`
-              padding: 0 16px;
-            `)}
+            renderElement={renderElement}
+            renderLeaf={renderLeaf}
+            placeholder='Enter some rich text…'
             onKeyDown={event => {
               toggleKeyboardShortcut(event, editor);
             }}
-            placeholder='Enter some rich text…'
-            renderElement={renderElement}
-            renderLeaf={renderLeaf}
+            className={cx(css`
+              padding: 0 16px;
+            `)}
           />
         </div>
       </Slate>
@@ -85,12 +82,13 @@ SlateEditor.displayName = 'SlateEditor';
 
 export default SlateEditor;
 
-  /* const handleSaveToPC = jsonData => {
-    const fileData = JSON.stringify(jsonData);
-    const blob = new Blob([fileData], {type: "application/json"});
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.download = 'value.json';
-    link.href = url;
-    link.click();
-  } */
+/* 
+const handleSaveToPC = jsonData => {
+  const fileData = JSON.stringify(jsonData);
+  const blob = new Blob([fileData], {type: "application/json"});
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.download = 'value.json';
+  link.href = url;
+  link.click();
+} */

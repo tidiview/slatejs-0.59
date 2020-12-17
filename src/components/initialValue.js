@@ -1,45 +1,40 @@
-const existingValue = JSON.parse(localStorage.getItem('content'));
-existingValue.displayName = 'existingValue';
-
-const initialValue = existingValue || [
+export const initialValue = JSON.parse(localStorage.getItem('slate-content')) ||  [
   {
-    type: "paragraph",
-    children: [
-      { text: "This is editable " },
-      { text: "rich", bold: true },
-      { text: " text, " },
-      { text: "much", italic: true },
-      { text: " better than a " },
-      { text: "<textarea>", code: true },
-      { text: "! " },
-      { text: "isn't it?", strikethrough: true }
-    ]
-  },
-  {
-    type: "paragraph",
-    children: [
+    "type": "paragraph",
+    "children": [
       {
-        text:
-          "Since it's rich text, you can do things like turn a selection of text "
+        "text": "A "
       },
-      { text: "bold", bold: true },
       {
-        text:
-          ", or add a semantically rendered block quote in the middle of the page, like this:"
+        "text": "line of text",
+        "bold": true
+      },
+      {
+        "text": " in a "
+      },
+      {
+        "type": "link",
+        "url": "prout",
+        "children": [
+          {
+            "text": "paragraph"
+          }
+        ]
+      },
+      {
+        "text": "."
       }
     ]
   },
   {
-    type: "block-quote",
-    children: [{ text: "A wise quote." }]
+    "children": [
+      {
+        "text": "Would this be working in japanese also?"
+      }
+    ]
   },
   {
-    type: "paragraph",
-    children: [{ text: "Try it out for yourself!" }]
-  },
-  {
-    type: "paragraph",
-    children: [
+    "children": [
       {
         "text": "日本語の"
       },
@@ -49,11 +44,13 @@ const initialValue = existingValue || [
         "children": [
           {
             "text": "確",
+            "bold": true
           }
         ]
       },
       {
-        "text": ""
+        "text": "",
+        "bold": true
       },
       {
         "type": "ruby",
@@ -61,15 +58,38 @@ const initialValue = existingValue || [
         "children": [
           {
             "text": "認",
+            "bold": true
           }
         ]
       },
       {
-        "text": "です。結構、綺麗ですかね。綺麗ようですが。。。素晴らしいと言いましょう！"
+        "text": "です。"
+      },
+      {
+        "type": "ruby",
+        "rt": "けっこう",
+        "children": [
+          {
+            "text": "結構"
+          }
+        ]
+      },
+      {
+        "text": "、綺麗ですかね。素晴らしいと言いましょう！"
+      }
+    ],
+    "type": "paragraph"
+  },
+  {
+    "type": "image",
+    "url": "https://source.unsplash.com/kFrdX5IeQzI",
+    "children": [
+      {
+        "text": ""
       }
     ]
   }
 ];
 initialValue.displayName = 'initialValue';
-
-export default initialValue;
+/* 
+export default initialValue; */

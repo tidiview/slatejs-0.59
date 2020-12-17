@@ -1,20 +1,9 @@
 import React, { useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom';
 import { Editor, Range, Text, Transforms } from 'slate';
-import { ReactEditor, useSlate, useSlateStatic, useSelected, useFocused } from 'slate-react';
+import { ReactEditor, useSlate, useEditor, useSelected, useFocused } from 'slate-react';
 import { cx, css } from '@emotion/css';
-import {
-  isBlockActive,
-  toggleBlock,
-  isMarkActive,
-  toggleMark,
-  isLinkActive,
-  isRubyActive,
-  isFormatActive,
-  insertLink,
-  insertRuby,
-  insertImage
-} from './helpers';
+import { isBlockActive, toggleBlock, isMarkActive, toggleMark, isLinkActive, isRubyActive, isFormatActive, insertLink, insertRuby, insertImage } from './helpers';
 
 export const Button = React.forwardRef(
   ({ className, active, reversed, ...props }, ref) => (
@@ -243,25 +232,23 @@ export const ImageElement = ({ attributes, children, element }) => {
   const focused = useFocused()
   return (
     <div {...attributes}>
-      <div contentEditable={false}>
-        <img
-          src={element.url}
-          className={css`
-            display: block;
-            max-width: 100%;
-            max-height: 20em;
-            box-shadow: ${selected && focused ? '0 0 0 3px #B4D5FF' : 'none'};
-          `}
-        />
-      </div>
       {children}
+      <img
+        src={element.url}
+        className={css`
+          display: block;
+          max-width: 100%;
+          max-height: 20em;
+          box-shadow: ${selected && focused ? '0 0 0 2px blue;' : 'none'};
+        `}
+      />
     </div>
   )
 }
 ImageElement.displayName= 'ImageElement'
 
 export const ImageButton = () => {
-  const editor = useSlate()
+  const editor = useEditor()
   return (
     <Button
       onMouseDown={event => {
@@ -276,6 +263,8 @@ export const ImageButton = () => {
   )
 };
 ImageButton.displayName= 'ImageButton'
+
+// icon for html tag <figure> will has for reference 'AspectRatio'
 
 export const HoveringToolbar = () => {
   const ref = useRef()
